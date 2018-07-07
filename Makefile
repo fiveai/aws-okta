@@ -4,14 +4,14 @@ LDFLAGS := -ldflags='-X "main.Version=$(VERSION)"'
 release: gh-release govendor clean dist
 	github-release release \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name $(VERSION)
 
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta-$(VERSION)-linux-amd64 \
@@ -20,7 +20,7 @@ release: gh-release govendor clean dist
 release-mac: gh-release govendor clean dist-mac
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta-$(VERSION)-darwin-amd64 \

@@ -7,7 +7,7 @@
 You can install with:
 
 ```bash
-$ go get github.com/segmentio/aws-okta
+$ go get github.com/fiveai/aws-okta
 ```
 
 ## Usage
@@ -108,10 +108,6 @@ Pushing a new tag will cause Circle to automatically create and push a linux rel
 $ export CIRCLE_TAG=`git describe --tags`
 $ make release-mac
 ```
-
-## Analytics
-
-`aws-okta` includes some usage analytics code which Segment uses internally for tracking usage of internal tools.  This analytics code is turned off by default, and can only be enabled via a linker flag at build time, which we do not set for public github releases.
 
 ## Internals
 

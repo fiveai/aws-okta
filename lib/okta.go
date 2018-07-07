@@ -20,12 +20,13 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
-	"github.com/segmentio/aws-okta/lib/saml"
+	"gitlab.corp.five.ai/infra/aws-okta/lib/saml"
 )
 
-const (
-	OktaServer = "okta.com"
-)
+var OktaServer = map[string]string{
+	"emea": "okta-emea.com",
+	"us":   "okta.com",
+}
 
 type OktaClient struct {
 	Organization    string
@@ -40,6 +41,7 @@ type OktaClient struct {
 	OktaAwsSAMLUrl  string
 	CookieJar       http.CookieJar
 	BaseURL         *url.URL
+	OktaRegion      string
 }
 
 type SAMLAssertion struct {
@@ -48,14 +50,14 @@ type SAMLAssertion struct {
 }
 
 type OktaCreds struct {
+	Server       string
 	Organization string
 	Username     string
-	Password     string
 }
 
 func NewOktaClient(creds OktaCreds, oktaAwsSAMLUrl string, sessionCookie string) (*OktaClient, error) {
 	base, err := url.Parse(fmt.Sprintf(
-		"https://%s.%s", creds.Organization, OktaServer,
+		"https://%s.%s", creds.Organization, OktaServer[creds.Server],
 	))
 	if err != nil {
 		return nil, err
@@ -75,13 +77,26 @@ func NewOktaClient(creds OktaCreds, oktaAwsSAMLUrl string, sessionCookie string)
 		})
 	}
 
+	fmt.Println()
+	username, err := Prompt("Okta username", false)
+	if err != nil {
+		return nil, err
+	}
+
+	password, err := Prompt("Okta password", true)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println()
+
 	return &OktaClient{
 		Organization:   creds.Organization,
-		Username:       creds.Username,
-		Password:       creds.Password,
+		Username:       username,
+		Password:       password,
 		OktaAwsSAMLUrl: oktaAwsSAMLUrl,
 		CookieJar:      jar,
 		BaseURL:        base,
+		OktaRegion:     creds.Server,
 	}, nil
 }
 
@@ -107,6 +122,7 @@ func (o *OktaClient) AuthenticateProfile(profileARN string, duration time.Durati
 		log.Debug("Step: 1")
 		err = o.Get("POST", "api/v1/authn", payload, &oktaUserAuthn, "json")
 		if err != nil {
+			fmt.Println(err)
 			return sts.Credentials{}, "", errors.New("Failed to authenticate with okta.  Please check that your credentials have been set correctly with `aws-okta add`")
 		}
 
@@ -355,7 +371,7 @@ func (o *OktaClient) Get(method string, path string, data []byte, recv interface
 	var client http.Client
 
 	url, err := url.Parse(fmt.Sprintf(
-		"https://%s.%s/%s", o.Organization, OktaServer, path,
+		"https://%s.%s/%s", o.Organization, OktaServer[o.OktaRegion], path,
 	))
 	if err != nil {
 		return err
