@@ -20,7 +20,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
-	"gitlab.corp.five.ai/infra/aws-okta/lib/saml"
+	"github.com/fiveai/aws-okta/lib/saml"
 )
 
 var OktaServer = map[string]string{

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.corp.five.ai/infra/aws-okta/lib/saml"
+	"github.com/fiveai/aws-okta/lib/saml"
 	"golang.org/x/net/html"
 )
 
