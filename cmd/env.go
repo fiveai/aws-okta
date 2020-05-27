@@ -8,7 +8,6 @@ import (
 
 	"github.com/99designs/keyring"
 	"github.com/alessio/shellescape"
-	analytics "github.com/segmentio/analytics-go"
 	"github.com/segmentio/aws-okta/lib"
 	"github.com/spf13/cobra"
 )
@@ -78,18 +77,6 @@ func envRun(cmd *cobra.Command, args []string) error {
 	kr, err := lib.OpenKeyring(allowedBackends)
 	if err != nil {
 		return err
-	}
-
-	if analyticsEnabled && analyticsClient != nil {
-		analyticsClient.Enqueue(analytics.Track{
-			UserId: username,
-			Event:  "Ran Command",
-			Properties: analytics.NewProperties().
-				Set("backend", backend).
-				Set("aws-okta-version", version).
-				Set("profile", profile).
-				Set("command", "env"),
-		})
 	}
 
 	opts.SessionCacheSingleItem = flagSessionCacheSingleItem
