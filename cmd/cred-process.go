@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/99designs/keyring"
-	"github.com/segmentio/aws-okta/lib"
+	"github.com/fiveai/aws-okta/lib"
 	"github.com/spf13/cobra"
 )
 

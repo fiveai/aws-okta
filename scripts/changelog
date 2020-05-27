@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-commit_url_base='https://github.com/segmentio/aws-okta/commit'
+commit_url_base='https://github.com/fiveai/aws-okta/commit'
 
 # generates a changelog between the current commit and the previous tag
 changelog() {

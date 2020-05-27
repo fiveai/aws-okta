@@ -6,7 +6,7 @@ import (
 	"sort"
 	"text/tabwriter"
 
-	"github.com/segmentio/aws-okta/lib"
+	"github.com/fiveai/aws-okta/lib"
 	"github.com/spf13/cobra"
 )
 

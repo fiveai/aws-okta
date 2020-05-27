@@ -8,7 +8,7 @@ VERSION := $(shell git describe --tags --always --dirty="-dev")
 LDFLAGS := -ldflags='-X "main.Version=$(VERSION)"'
 
 test:
-	GO111MODULE=on go test -mod=vendor -v ./...
+	GO111MODULE=on go test -v ./...
 
 all: dist/aws-okta-$(VERSION)-darwin-amd64 dist/aws-okta-$(VERSION)-linux-amd64
 
@@ -19,9 +19,9 @@ dist/:
 	mkdir -p dist
 
 dist/aws-okta-$(VERSION)-darwin-amd64: | dist/
-	GOOS=darwin GOARCH=amd64 GO111MODULE=on go build -mod=vendor $(LDFLAGS) -o $@
+	GOOS=darwin GOARCH=amd64 GO111MODULE=on go build $(LDFLAGS) -o $@
 
 dist/aws-okta-$(VERSION)-linux-amd64: | dist/
-	GOOS=linux GOARCH=amd64 GO111MODULE=on go build -mod=vendor $(LDFLAGS) -o $@
+	GOOS=linux GOARCH=amd64 GO111MODULE=on go build $(LDFLAGS) -o $@
 
 .PHONY: clean all

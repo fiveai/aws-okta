@@ -48,7 +48,7 @@ github-release:
 	set -o pipefail; \
 	scripts/changelog | github-release release \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	$(GITHUB_RELEASE_FLAGS) \
 	--tag $(VERSION) \
@@ -56,14 +56,14 @@ github-release:
 	--name $(VERSION) || \
 	github-release info \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION)
 
 publish-github-darwin-bin: dist/aws-okta-$(VERSION)-darwin-amd64 | github-release
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta-$(VERSION)-darwin-amd64 \
@@ -73,7 +73,7 @@ publish-github-darwin-bin: dist/aws-okta-$(VERSION)-darwin-amd64 | github-releas
 publish-github-linux-bin: dist/aws-okta-$(VERSION)-linux-amd64 | github-release
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta-$(VERSION)-linux-amd64 \
@@ -83,7 +83,7 @@ publish-github-linux-bin: dist/aws-okta-$(VERSION)-linux-amd64 | github-release
 publish-github-deb: dist/aws-okta_$(VERSION)_amd64.deb | github-release
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta_$(VERSION)_amd64.deb \
@@ -93,7 +93,7 @@ publish-github-deb: dist/aws-okta_$(VERSION)_amd64.deb | github-release
 publish-github-rpm: dist/aws-okta_$(VERSION)_amd64.rpm | github-release
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta_$(VERSION)_amd64.rpm \
@@ -103,7 +103,7 @@ publish-github-rpm: dist/aws-okta_$(VERSION)_amd64.rpm | github-release
 publish-github-sha256sums: dist/aws-okta-$(VERSION).sha256sums | github-release
 	github-release upload \
 	--security-token $$GH_LOGIN \
-	--user segmentio \
+	--user fiveai \
 	--repo aws-okta \
 	--tag $(VERSION) \
 	--name aws-okta-$(VERSION).sha256sums \
@@ -119,18 +119,18 @@ packagecloud.conf.json:
 publish-packagecloud-deb: dist/aws-okta_$(VERSION)_amd64.deb packagecloud.conf.json
 	@set -o pipefail; \
 	for v in $(PACKAGECLOUD_DEB_DISTROS); do \
-		(package_cloud yank --config packagecloud.conf.json segment/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v aws-okta_$(VERSION_NO_V)_amd64.deb || true) | \
+		(package_cloud yank --config packagecloud.conf.json fiveai/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v aws-okta_$(VERSION_NO_V)_amd64.deb || true) | \
 			grep -v 'with token:' || true ; \
-		package_cloud push --config packagecloud.conf.json segment/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v $< | \
+		package_cloud push --config packagecloud.conf.json fiveai/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v $< | \
 			grep -v 'with token:' ; \
 	done
 
 publish-packagecloud-rpm: dist/aws-okta_$(VERSION)_amd64.rpm packagecloud.conf.json
 	@set -o pipefail; \
 	for v in $(PACKAGECLOUD_RPM_DISTROS); do \
-		(package_cloud yank --config packagecloud.conf.json segment/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v aws-okta-$(subst -,_,$(VERSION_NO_V))-1.x86_64.rpm || true) | \
+		(package_cloud yank --config packagecloud.conf.json fiveai/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v aws-okta-$(subst -,_,$(VERSION_NO_V))-1.x86_64.rpm || true) | \
 			grep -v 'with token:' || true ; \
-		package_cloud push --config packagecloud.conf.json segment/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v $< | \
+		package_cloud push --config packagecloud.conf.json fiveai/aws-okta$(PACKAGECLOUD_NAME_SUFFIX)/$$v $< | \
 			grep -v 'with token:' ; \
 	done
 
