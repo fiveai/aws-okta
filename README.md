@@ -2,25 +2,9 @@
 
 `aws-okta` allows you to authenticate with AWS using your Okta credentials.
 
-⚠️ As per [#278](https://github.com/segmentio/aws-okta/issues/278), development and maintenance of `aws-okta` is halted. If you're not already using it, now would be a bad time to start. ⚠️
-
 ## Installing
 
-[See the wiki for more installation options.](https://github.com/segmentio/aws-okta/wiki/Installation)
-
-### MacOS
-
-You can install with `brew`:
-
-```bash
-$ brew install aws-okta
-```
-
-Shout-out to the fine maintainers of [the core formula](https://github.com/Homebrew/homebrew-core/blob/master/Formula/aws-okta.rb).
-
-### Linux
-
-[Download a binary from our release page](https://github.com/segmentio/aws-okta/releases), or [see the wiki for more installation options like deb/rpm packages](https://github.com/segmentio/aws-okta/wiki/Installation).
+[Download a binary from our release page](https://github.com/FiveAI/aws-okta/releases)
 
 ### Windows
 
