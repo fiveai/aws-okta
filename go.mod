@@ -1,5 +1,9 @@
 module github.com/fiveai/aws-okta
 
+go 1.15
+
+replace github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
+
 require (
 	github.com/99designs/keyring v1.0.0
 	github.com/alessio/shellescape v0.0.0-20190409004728-b115ca0f9053
@@ -18,5 +22,3 @@ require (
 	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
 	gopkg.in/ini.v1 v1.42.0
 )
-
-go 1.13
