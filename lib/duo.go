@@ -28,10 +28,12 @@ type DuoClient struct {
 	Callback   string
 	Device     string
 	StateToken string
+	FactorID   string
 }
 
 type StatusResp struct {
 	Response struct {
+		SessionID      string `json:"sid"`
 		U2FSignRequest []struct {
 			Version   string `json:"version"`
 			Challenge string `json:"challenge"`
@@ -57,12 +59,13 @@ type PromptResp struct {
 	Stat string `json:"stat"`
 }
 
-func NewDuoClient(host, signature, callback string) *DuoClient {
+func NewDuoClient(host, signature, callback, factorID string) *DuoClient {
 	return &DuoClient{
 		Host:      host,
 		Signature: signature,
 		Device:    "phone1",
 		Callback:  callback,
+		FactorID:  factorID,
 	}
 }
 
@@ -460,6 +463,13 @@ func (d *DuoClient) DoStatus(txid, sid string) (auth string, status StatusResp, 
 
 	if status.Response.Result == "SUCCESS" {
 		if status.Response.ResultURL != "" {
+			// DUO appears to waver on whether a session ID should come back
+			// in the response here, if it does, it should be used in the redirect
+			// before calling the Okta callback.
+			if status.Response.SessionID != "" {
+				sid = status.Response.SessionID
+			}
+			log.Debugf("Redirecting: %s; sid: %s", status.Response.ResultURL, sid)
 			auth, err = d.DoRedirect(status.Response.ResultURL, sid)
 		} else {
 			auth = status.Response.Cookie
@@ -514,7 +524,7 @@ func (d *DuoClient) DoCallback(auth string) (err error) {
 
 	client := &http.Client{}
 
-	callbackData := "stateToken=" + d.StateToken + "&sig_response=" + sigResp
+	callbackData := "id=" + d.FactorID + "&stateToken=" + d.StateToken + "&sig_response=" + sigResp
 	req, err = http.NewRequest("POST", d.Callback, bytes.NewReader([]byte(callbackData)))
 	if err != nil {
 		return
