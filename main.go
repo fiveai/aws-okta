@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/segmentio/aws-okta/cmd"
+	"github.com/fiveai/aws-okta/cmd"
 )
 
 // These are set via linker flags

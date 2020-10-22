@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/segmentio/aws-okta/lib/saml"
+	"github.com/fiveai/aws-okta/lib/saml"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/html"
 )

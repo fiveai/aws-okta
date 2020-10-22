@@ -1,6 +1,6 @@
 FROM golang:1.11 as build
 
-ENV SRC github.com/segmentio/aws-okta
+ENV SRC github.com/fiveai/aws-okta
 ARG VERSION
 
 WORKDIR /build

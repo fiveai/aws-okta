@@ -20,8 +20,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
-	"github.com/segmentio/aws-okta/lib/mfa"
-	"github.com/segmentio/aws-okta/lib/saml"
+	"github.com/fiveai/aws-okta/lib/mfa"
+	"github.com/fiveai/aws-okta/lib/saml"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -455,7 +455,9 @@ func (o *OktaClient) postChallenge(payload []byte, oktaFactorProvider string, ok
 				return err
 			}
 		}
+
 		// Poll Okta until authentication has been completed
+		log.Debug("Polling Okta")
 		for o.UserAuth.Status != "SUCCESS" {
 			select {
 			case duoErr := <-errChan:
