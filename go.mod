@@ -7,7 +7,8 @@ replace github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.
 require (
 	github.com/99designs/keyring v1.0.0
 	github.com/alessio/shellescape v0.0.0-20190409004728-b115ca0f9053
-	github.com/aws/aws-sdk-go v1.25.25
+	github.com/aws/aws-sdk-go v1.25.35
+	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/karalabe/hid v1.0.0 // indirect
 	github.com/marshallbrekka/go-u2fhost v0.0.0-20200114212649-cc764c209ee9
