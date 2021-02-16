@@ -217,7 +217,6 @@ func (p *Provider) getOktaAccountName() string {
 
 func (p *Provider) getSamlSessionCreds() (sts.Credentials, error) {
 	var profileARN string
-	var ok bool
 	source := sourceProfile(p.profile, p.profiles)
 	oktaAwsSAMLUrl, err := p.getSamlURL()
 	if err != nil {
@@ -226,23 +225,26 @@ func (p *Provider) getSamlSessionCreds() (sts.Credentials, error) {
 	oktaSessionCookieKey := p.getOktaSessionCookieKey()
 	oktaAccountName := p.getOktaAccountName()
 
+	if _, ok := p.profiles[source]["okta_aws_role_arn"]; ok {
+		profileARN, _ = p.profiles[source]["okta_aws_role_arn"]
+	} else if _, ok := p.profiles[source]["role_arn"]; ok {
+		profileARN, _ = p.profiles[source]["role_arn"]
+	} else {
+		// profile does not have an okta_aws_role_arn or role_arn. This is ok
+		// as the user will be promted to choose a role from all available roles
+		// Support profiles similar to below
+		//   [profile my-profile]
+		//   output = json
+		//   aws_saml_url = /home/some_saml_url
+		//   mfa_provider = FIDO
+		//   mfa_factor_type = u2f
+		log.Debugf("Profile '%s' does not have role_arn", source)
+	}
+
 	// if the assumable role is passed it have it override what is in the profile
 	if p.AssumeRoleArn != "" {
 		profileARN = p.AssumeRoleArn
 		log.Debug("Overriding Assumable role with: ", profileARN)
-	} else {
-		profileARN, ok = p.profiles[source]["role_arn"]
-		if !ok {
-			// profile does not have a role_arn. This is ok as the user will be promted
-			// to choose a role from all available roles
-			// Support profiles similar to below
-			//   [profile my-profile]
-			//   output = json
-			//   aws_saml_url = /home/some_saml_url
-			//   mfa_provider = FIDO
-			//   mfa_factor_type = u2f
-			log.Debugf("Profile '%s' does not have role_arn", source)
-		}
 	}
 
 	provider := OktaProvider{
