@@ -4,6 +4,8 @@ go 1.15
 
 replace github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 
+retract v0.19.4
+
 require (
 	github.com/99designs/keyring v1.1.6
 	github.com/alessio/shellescape v1.4.1
@@ -12,6 +14,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/stretchr/testify v1.3.0
 	github.com/vaughan0/go-ini v0.0.0-20130923145212-a98ad7ee00ec
