@@ -469,6 +469,11 @@ func (o *OktaClient) postChallenge(payload []byte, oktaFactorProvider string, ok
 				err := o.Get("POST", "api/v1/authn/factors/"+oktaFactorId+"/verify",
 					payload, &o.UserAuth, "json",
 				)
+
+				if o.UserAuth.Embedded.Factor.Embedded.Challenge.CorrectAnswer != nil {
+					log.Infof("Recieved 3-number verification challenge: %d", *o.UserAuth.Embedded.Factor.Embedded.Challenge.CorrectAnswer)
+				}
+
 				if err != nil {
 					return fmt.Errorf("Failed authn verification for okta. Err: %s", err)
 				}

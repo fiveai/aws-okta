@@ -55,6 +55,7 @@ type OktaUserAuthnFactorEmbeddedChallenge struct {
 	Nonce           string `json:"nonce"`
 	Challenge       string `json:"challenge"`
 	TimeoutSeconnds int    `json:"timeoutSeconds"`
+	CorrectAnswer   *int    `json:"CorrectAnswer"`
 }
 type OktaUserAuthnFactorEmbeddedVerificationLinks struct {
 	Complete OktaUserAuthnFactorEmbeddedVerificationLinksComplete `json:"complete"`
